@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------
-# MASTER SCRIPT — Trains and Evaluates All 8 Practicals
+# MASTER SCRIPT — Trains and Evaluates All 9 Practicals
 # ---------------------------------------------------------------
 
 """
@@ -50,6 +50,7 @@ from src.models import (
     train_kmeans,
     train_random_forest,
     train_svc,
+    train_xgboost,
 )
 from src.nn_model import train_and_save_nn
 from src.evaluate import classification_metrics, regression_metrics, clustering_metrics, models_comparison_table
@@ -124,6 +125,14 @@ def main() -> None:
         X_train_scaled.values, y_train.values, X_test_scaled.values, y_test.values, model_name="nn_iris.keras"
     )
 
+    # PRACTICAL 9 — XGBoost (new algorithm) — train on unscaled features
+    try:
+        xgb, xgb_params = train_xgboost(X_train, y_train)
+        save_model(xgb, "xgboost.joblib")
+    except ImportError as e:
+        xgb = None
+        xgb_params = {}
+
     # Evaluate and compare models (classification)
     comparison_rows: List[Dict] = []
 
@@ -150,6 +159,13 @@ def main() -> None:
     metrics_svc = classification_metrics(y_test, y_pred_svc)
     comparison_rows.append({"model": "SVC", **metrics_svc})
     plot_confusion_matrix(y_test, y_pred_svc, labels=sorted(y_train.unique().tolist()), title="SVC")
+
+    # XGBoost (if available)
+    if xgb is not None:
+        y_pred_xgb = xgb.predict(X_test)
+        metrics_xgb = classification_metrics(y_test, y_pred_xgb)
+        comparison_rows.append({"model": "XGBoost", **metrics_xgb})
+        plot_confusion_matrix(y_test, y_pred_xgb, labels=sorted(y_train.unique().tolist()), title="XGBoost")
 
     # KMeans (unsupervised) — Evaluate clustering quality
     kmeans_train_test = pd.concat([X_train_scaled, X_test_scaled], axis=0)

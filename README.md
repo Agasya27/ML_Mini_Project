@@ -1,8 +1,8 @@
 # ---------------------------------------------------------------
-# IrisSuite — 8 Practicals on the Iris Dataset (VS Code-Ready)
+# IrisSuite — 9 Practicals on the Iris Dataset (VS Code-Ready)
 # ---------------------------------------------------------------
 
-IrisSuite is a production-quality, well-documented Python project that implements eight classic Machine Learning practicals using the Iris dataset — plus data preprocessing, EDA, hyperparameter tuning, model comparison, model saving, and a Streamlit GUI.
+IrisSuite is a production-quality, well-documented Python project that implements nine classic Machine Learning practicals using the Iris dataset — plus data preprocessing, EDA, hyperparameter tuning, model comparison, model saving, and a Streamlit GUI.
 
 This repository is designed to be easy to run locally and to explain in a viva. Every file and major section begins with a clear comment header stating which practical(s) it implements.
 
@@ -27,11 +27,13 @@ This repository is designed to be easy to run locally and to explain in a viva. 
   - File: `src/models.py` (train_kmeans)
 - PRACTICAL 8 — Random Forest and Support Vector Machine (SVM)
   - File: `src/models.py` (train_random_forest, train_svc)
+- PRACTICAL 9 — XGBoost Classifier (New)
+  - File: `src/models.py` (train_xgboost)
 
 Additional shared functionality:
 - `src/evaluate.py` — EVALUATION — Common for Practicals 2, 4, 5, 6, 7, 8
 - `src/utils.py` — UTILITIES — Used Across All Practicals
-- `scripts/train_all_models.py` — MASTER SCRIPT — Trains and Evaluates All 8 Practicals
+- `scripts/train_all_models.py` — MASTER SCRIPT — Trains and Evaluates All 9 Practicals
 - `scripts/evaluate_models.py` — EVALUATION SCRIPT — Compare All Models
 - `streamlit_app/app.py` — GUI — Streamlit Interface for Model Interaction
 
@@ -50,11 +52,15 @@ The engineered dataset (including these features) is saved to `data/iris_pp.csv`
 
 ## Streamlit UI
 The app provides a modern, clean, and interactive interface:
-- Gradient theme (light/dark toggle) and custom CSS for a polished look.
-- Tabs:
-  - Overview & About — project summary, student details, and the Innovation Section explanation.
-  - EDA & Model Insights — pre-generated EDA images from `outputs/`, model comparison table and chart, per-model metrics (accuracy/precision/recall/F1), confusion matrix heatmap, and feature importance (DT/RF).
-  - Prediction — sliders (or CSV upload), automatic engineered features, predictions with probability bars, and a download button for batch predictions.
+- Premium dark theme and custom CSS for a polished look.
+- Sidebar navigation with four sections:
+  - Home — project summary, student details, and the Innovation Section explanation.
+  - EDA — pre-generated EDA images from `outputs/`, model comparison table and chart.
+  - Predict — manual sliders or CSV upload, automatic engineered features, predictions with probability bars, and a download button for batch predictions.
+  - About — credits and project overview.
+Notes:
+- Non-Iris CSVs are blocked with clear validation messages.
+- The model list includes classic ML models, a Keras neural network, and the new XGBoost classifier.
 
 Screenshot: Insert Streamlit app screenshot here
 

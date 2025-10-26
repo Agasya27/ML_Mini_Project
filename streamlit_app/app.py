@@ -63,7 +63,7 @@ def list_saved_models() -> Dict[str, Path]:
 def list_classifiers() -> Dict[str, Path]:
     """Return only classifier models supported in the UI (exclude regressors and clustering)."""
     all_models = list_saved_models()
-    allowed = {"decision_tree.joblib", "knn.joblib", "random_forest.joblib", "svc.joblib"}
+    allowed = {"decision_tree.joblib", "knn.joblib", "random_forest.joblib", "svc.joblib", "xgboost.joblib"}
     cls_models: Dict[str, Path] = {}
     for name, path in all_models.items():
         if name in allowed or name.endswith(".keras"):
@@ -357,7 +357,7 @@ def model_predict(model_name: str, X_row: pd.DataFrame, assets: Dict[str, pd.Dat
         aligned = X_row.reindex(columns=feature_order)
 
         # Choose scaling based on training behavior
-        if "random_forest" in model_name:
+        if ("random_forest" in model_name) or ("xgboost" in model_name):
             X_pred_df = aligned
         else:
             scaler = assets.get("scaler", None)
@@ -443,7 +443,7 @@ def main() -> None:
     if menu == "Home":
         st.markdown("## 🌺 Overview & About")
         st.write("""
-        This app demonstrates eight ML practicals on the classic Iris dataset with a modern, interactive UI.
+    This app demonstrates nine ML practicals on the classic Iris dataset with a modern, interactive UI.
         It includes end-to-end preprocessing, EDA, regression/classification/clustering models, hyperparameter tuning,
         model comparison, and a neural network — all wrapped in a clean Streamlit interface.
         """)
@@ -503,7 +503,7 @@ def main() -> None:
                     else:
                         model = load_model(model_name)
                         feature_names = getattr(model, "feature_names_in_", None)
-                        if "random_forest" in model_name:
+                        if ("random_forest" in model_name) or ("xgboost" in model_name):
                             X_df = assets["X_test"].copy()
                         else:
                             X_df = assets["X_test_scaled"].copy()
@@ -633,7 +633,7 @@ def main() -> None:
 
     elif menu == "About":
         st.markdown("## ℹ️ About")
-        st.write("IrisSuite — an educational yet production-quality mini-project showcasing 8 ML practicals on the Iris dataset with a modern Streamlit UI.")
+        st.write("IrisSuite — an educational yet production-quality mini-project showcasing 9 ML practicals on the Iris dataset with a modern Streamlit UI.")
         st.markdown("Developed by Agasya Butolia, Roll No. 66, Shri Ramdeobaba College of Engineering and Management")
 
     # Footer

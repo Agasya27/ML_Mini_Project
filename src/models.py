@@ -139,3 +139,45 @@ def train_svc(X: pd.DataFrame, y: pd.Series) -> Tuple[SVC, Dict]:
     grid = GridSearchCV(base, param_grid, cv=5, scoring="f1_macro", n_jobs=-1, refit=True)
     grid.fit(X, y)
     return grid.best_estimator_, grid.best_params_
+
+
+# ---------------------------------------------------------------
+# PRACTICAL 9 — XGBoost (Gradient Boosting)
+# ---------------------------------------------------------------
+def train_xgboost(X: pd.DataFrame, y: pd.Series):
+    """
+    PRACTICAL 9 — Trains an XGBoost (XGBClassifier) model with GridSearchCV.
+
+    Notes
+    -----
+    - Uses the XGBoost scikit-learn wrapper (XGBClassifier).
+    - Tree-based boosting does not require feature scaling.
+    - We keep a compact search space for quick training.
+    """
+    try:
+        from xgboost import XGBClassifier  # type: ignore
+    except Exception as e:
+        raise ImportError(
+            "xgboost is not installed. Please add it to requirements or install xgboost>=1.7.0"
+        ) from e
+
+    from sklearn.model_selection import GridSearchCV
+
+    param_grid = {
+        "n_estimators": [50, 100],
+        "max_depth": [3, 4],
+        "learning_rate": [0.1, 0.05],
+        "subsample": [0.8, 1.0],
+        "colsample_bytree": [0.8, 1.0],
+    }
+    base = XGBClassifier(
+        random_state=RANDOM_STATE,
+        objective="multi:softprob",
+        eval_metric="mlogloss",
+        n_jobs=-1,
+        tree_method="hist",
+        use_label_encoder=False,
+    )
+    grid = GridSearchCV(base, param_grid, cv=5, scoring="f1_macro", n_jobs=-1, refit=True)
+    grid.fit(X, y)
+    return grid.best_estimator_, grid.best_params_

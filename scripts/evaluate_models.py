@@ -54,15 +54,22 @@ def main() -> None:
     knn = load_model("knn.joblib")
     rf = load_model("random_forest.joblib")
     svc = load_model("svc.joblib")
+    # XGBoost may not be present if not trained
+    xgb_path = project_root() / "saved_models" / "xgboost.joblib"
+    xgb = load_model("xgboost.joblib") if xgb_path.exists() else None
 
     rows: List[Dict] = []
 
-    for name, model, X_eval in [
+    models_to_eval = [
         ("DecisionTree", dt, X_test_scaled),
         ("KNN", knn, X_test_scaled),
         ("RandomForest", rf, X_test),  # RF uses unscaled
         ("SVC", svc, X_test_scaled),
-    ]:
+    ]
+    if xgb is not None:
+        models_to_eval.append(("XGBoost", xgb, X_test))
+
+    for name, model, X_eval in models_to_eval:
         y_pred = model.predict(X_eval)
         metrics = classification_metrics(y_test, y_pred)
         rows.append({"model": name, **metrics})
