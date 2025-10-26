@@ -1,0 +1,76 @@
+# ---------------------------------------------------------------
+# GITIGNORE — Standard Python Ignores and Project Artifacts
+# ---------------------------------------------------------------
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Logs
+logs/
+*.log
+
+# Project specific
+IrisSuite/outputs/*
+IrisSuite/saved_models/*
+!IrisSuite/outputs/.gitkeep
+!IrisSuite/saved_models/.gitkeep
+IrisSuite/data/iris_pp.csv
+
+# OS files
+.DS_Store
+Thumbs.db
